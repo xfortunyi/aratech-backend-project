@@ -1,24 +1,24 @@
-const { readCases } = require('../helper_functions/functions');
-const { sendProtocol } = require('../helper_functions/functions');
-
-const getProcotols = async function (req, res) {
-	try {
-		return await res.status(200).send(readCases());
-	} catch (error) {
-		res.status(500).send('Cannot load protocols');
-	}
-};
+const { avoidMech } = require('../helper_functions/functions');
+const { furthestEnemies } = require('../helper_functions/functions');
+const { assistAllies } = require('../helper_functions/functions');
+const { avoidCrossfire } = require('../helper_functions/functions');
+const { closestEnemies } = require('../helper_functions/functions');
+const { prioritizeMech } = require('../helper_functions/functions');
 
 const postProtocol = async function (req, res) {
+	let protocol = req.body.protocols;
 	try {
-		let body = req.body;
-		return await res.status(200).send('hello');
+		if (protocol[0] === 'avoid-mech') {
+			res.status(200);
+			return await res.send(avoidMech(req.body));
+		} else {
+			console.log('nothing');
+		}
 	} catch (error) {
-		res.status(500).send('Can not read the protocol you send me');
+		res.status(500).send('Can not read the protocol you send to me');
 	}
 };
 
 module.exports = {
-	getProcotols,
 	postProtocol,
 };

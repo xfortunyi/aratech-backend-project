@@ -1,12 +1,23 @@
-const protocols = require('../models/test_cases.json');
-
-const readCases = () => {
-	return protocols;
+const avoidMech = (cases) => {
+	let coord = cases.scan[0].coordinates;
+	return coord;
 };
 
-const sendProtocol = () => {};
+const prioritizeMech = (cases) => {};
+
+const closestEnemies = (cases) => {};
+
+const furthestEnemies = (cases) => {};
+
+const assistAllies = (cases) => {};
+
+const avoidCrossfire = (cases) => {};
 
 module.exports = {
-	readCases,
-	sendProtocol,
+	avoidMech,
+	prioritizeMech,
+	closestEnemies,
+	avoidCrossfire,
+	assistAllies,
+	furthestEnemies,
 };
