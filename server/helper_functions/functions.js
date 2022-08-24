@@ -1,85 +1,70 @@
+//per optimitzar-ho haig d'eliminar l'ultim return
+// i fer un return en el cases = {...cases, scan: whatever}
+
 const avoidMech = (cases) => {
-	for (let i = 0; i <= cases.protocols.length; i++) {
-		if (cases.protocols[i] === 'avoid-mech') {
-			for (let j = 0; j <= cases.scan.length; j++) {
-				if (cases.scan[j].enemies.type !== 'mech') {
-					for (let k = 0; k <= cases.scan.length; k++) {
-						return cases.scan[k].coordinates;
-					}
-				}
-			}
-		}
+	if (cases.protocols.includes('avoid-mech')) {
+		const filteredScan = cases.scan.filter((scan) => {
+			return scan.enemies.type !== 'mech';
+		});
+		cases = { ...cases, scan: filteredScan };
 	}
+	return cases.scan[0].coordinates;
 };
 
 const prioritizeMech = (cases) => {
-	for (let i = 0; i <= cases.protocols.length; i++) {
-		if (cases.protocols[i] === 'prioritize-mech') {
-			for (let j = 0; j <= cases.scan.length; j++) {
-				if (cases.scan[j].enemies.type === 'mech') {
-					for (let k = 0; k <= cases.scan.length; k++) {
-						return cases.scan[k].coordinates;
-					}
-				}
-			}
-		}
+	if (cases.protocols.includes('prioritize-mech')) {
+		const filteredScan = cases.scan.filter((scan) => {
+			return scan.enemies.type === 'mech';
+		});
+		cases = { ...cases, scan: filteredScan };
 	}
+	return cases.scan[0].coordinates;
 };
 
 const closestEnemies = (cases) => {
-	for (let i = 0; i <= cases.protocols.length; i++) {
-		if (cases.protocols[i] === 'closest-enemies') {
-			for (let j = 0; j <= cases.scan.length; j++) {}
-		}
+	if (cases.protocols.includes('closest-enemies')) {
+		const sortedScan = cases.scan.sort((a, b) => {
+			return (
+				Math.hypot(a.coordinates.x, a.coordinates.y) -
+				Math.hypot(b.coordinates.x, b.coordinates.y)
+			);
+		});
+		cases = { ...cases, scan: sortedScan };
 	}
+	return cases.scan[0].coordinates;
 };
 
 const furthestEnemies = (cases) => {
-	for (let i = 0; i <= cases.protocols.length; i++) {
-		if (cases.protocols[i] === 'furthest-enemies') {
-			for (let j = 0; j <= cases.scan.length; j++) {
-				Math.hypot(cases.scan[j].coordinates.x, cases.scan[j].coordinates.y);
-				console.log(
-					Math.hypot(cases.scan[j].coordinates.x, cases.scan[j].coordinates.y)
-				);
-				if (
-					Math.hypot(cases.scan[j].coordinates.x, cases.scan[j].coordinates.y) >
-					Math.hypot(
-						cases.scan[j + 1].coordinates.x,
-						cases.scan[j + 1].coordinates.y
-					)
-				) {
-					return cases.scan[j].coordinates;
-				} else {
-					return cases.scan[j + 1].coordinates;
-				}
-			}
-		}
+	if (cases.protocols.includes('furthest-enemies')) {
+		const sortedScan = cases.scan.sort((b, a) => {
+			return (
+				Math.hypot(a.coordinates.x, a.coordinates.y) -
+				Math.hypot(b.coordinates.x, b.coordinates.y)
+			);
+		});
+		cases = { ...cases, scan: sortedScan };
 	}
+	return cases.scan[0].coordinates;
 };
 
 const assistAllies = (cases) => {
-	for (let i = 0; i <= cases.protocols.length; i++) {
-		if (cases.protocols[i] === 'assist-allies') {
-			for (let j = 0; j <= cases.scan.length; j++) {
-				if (cases.scan[j].allies) {
-					return cases.scan[j].coordinates;
-				}
-			}
-		}
+	if (cases.protocols.includes('assist-allies')) {
+		const filteredScan = cases.scan.filter((scan) => {
+			return scan.hasOwnProperty('allies');
+		});
+		cases = { ...cases, scan: filteredScan };
 	}
+	return cases.scan[0].coordinates;
 };
 
 const avoidCrossfire = (cases) => {
-	for (let i = 0; i <= cases.protocols.length; i++) {
-		if (cases.protocols[i] === 'avoid-crossfire') {
-			for (let j = 0; j <= cases.scan.length; j++) {
-				if (!cases.scan[j].allies) {
-					return cases.scan[j].coordinates;
-				}
-			}
-		}
+	if (cases.protocols.includes('avoid-crossfire')) {
+		const filteredScan = cases.scan.filter((scan) => {
+			return !scan.hasOwnProperty('allies');
+		});
+		cases = { ...cases, scan: filteredScan };
 	}
+	return cases.scan[0].coordinates;
 };
 
 module.exports = {
