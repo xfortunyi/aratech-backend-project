@@ -14,7 +14,7 @@ Las instrucciones que debe leer el droide es la siguiente información:
 
 La respuesta que obtendrá el droide cuando le demos la información seran las coordenadas donde atacar.
 
-### Protocolos disponibles:
+**Protocolos disponibles**:
 
 - **closest-enemies** : Se deberá priorizar el punto más cercano en el que haya enemigos.
 - **furthest-enemies** : Se deberá priorizar el punto más lejano en el que haya enemigos.
@@ -42,6 +42,12 @@ cd server
 npm install
 ```
 
+3- Abrimos el servidor.
+
+```bash
+nodemon index.js
+```
+
 ## Ejecución
 
 Una vez tengamos instalado las dependencias del proyecto en nuestra máquina local, podemos testear nuestro droide con el módulo de "ataque" implementado.
@@ -65,3 +71,5 @@ Para ello, utilizaremos Postman. Postman es una plataforma de API para que los d
 <div align=center>
 <img src='./server/assets/postman/response.png'>
 </div>
+
+Xavier Fortuny - [Github](https://github.com/xfortunyi) - [Linkedin](https://www.linkedin.com/in/xavifortuny/)
