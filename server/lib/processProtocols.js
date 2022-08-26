@@ -1,5 +1,7 @@
-const { compareMech } = require('../helper_functions/functions.js');
-const { prioritizeAllies } = require('../helper_functions/functions.js');
+const {
+	compareMech,
+	prioritizeAllies,
+} = require('./helper_functions/functions');
 
 module.exports = class Drone {
 	constructor(instructions) {

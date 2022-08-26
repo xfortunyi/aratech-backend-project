@@ -1,7 +1,7 @@
 const Drone = require('../lib/processProtocols.js');
 const {
 	convertProtocolToFunction,
-} = require('../helper_functions/functions.js');
+} = require('../lib/helper_functions/functions');
 
 const radarInstructions = async function (req, res) {
 	try {
