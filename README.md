@@ -72,6 +72,28 @@ Para ello, utilizaremos Postman. Postman es una plataforma de API para que los d
 <img src='./server/assets/postman/response.png'>
 </div>
 
+## Testeo
+
+A continuación mostramos dos formas de corraborar que l'aplicación funciona a través de distintos métodos de test.
+
+1- Accedemos a la carpeta Test y ahí vamos a la carpeta Test_cases para correr el archivo tests.sh que encontramos:
+
+```bash
+cd server
+cd test
+cd test_cases
+./tests.sh
+```
+
+En nuestra terminal veremos como se ejecutan 13 tests, que son los casos presentados en el archivo test_cases.txt
+
+2- Se ha elaborado un módulo de testeo personalizado para comprobar la ruta y las funciones que se ejecutan en el proyecto. Para correr este testeo simplemente escribe en la terminal:
+
+```bash
+cd server
+npm test
+```
+
 ## Autor
 
 Xavier Fortuny - [Github](https://github.com/xfortunyi) - [Linkedin](https://www.linkedin.com/in/xavifortuny/)
