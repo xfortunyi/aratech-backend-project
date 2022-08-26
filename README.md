@@ -72,4 +72,6 @@ Para ello, utilizaremos Postman. Postman es una plataforma de API para que los d
 <img src='./server/assets/postman/response.png'>
 </div>
 
+## Autor
+
 Xavier Fortuny - [Github](https://github.com/xfortunyi) - [Linkedin](https://www.linkedin.com/in/xavifortuny/)
