@@ -1,33 +1,21 @@
-const { avoidMech } = require('../helper_functions/functions');
-const { prioritizeMech } = require('../helper_functions/functions');
-const { assistAllies } = require('../helper_functions/functions');
-const { avoidCrossfire } = require('../helper_functions/functions');
-const { furthestEnemies } = require('../helper_functions/functions');
-const { closestEnemies } = require('../helper_functions/functions');
+const Drone = require('../lib/processProtocols.js');
+const {
+	convertProtocolToFunction,
+} = require('../helper_functions/functions.js');
 
-const postProtocol = async function (req, res) {
+const radarInstructions = async function (req, res) {
 	try {
-		let protocol = req.body;
-
-		switch (req.body.protocols[0]) {
-			case 'avoid-mech':
-				return await res.status(200).send(avoidMech(protocol));
-			case 'prioritize-mech':
-				return await res.status(200).send(prioritizeMech(protocol));
-			case 'assist-allies':
-				return await res.status(200).send(assistAllies(protocol));
-			case 'avoid-crossfire':
-				return await res.status(200).send(avoidCrossfire(protocol));
-			case 'closest-enemies':
-				return await res.status(200).send(closestEnemies(protocol));
-			case 'furthest-enemies':
-				return await res.status(200).send(furthestEnemies(protocol));
+		const drone = new Drone(req.body);
+		const { protocols } = req.body;
+		for (const protocol of protocols) {
+			drone[convertProtocolToFunction(protocol)]();
 		}
+		res.status(200).send(drone.finally());
 	} catch (error) {
 		res.status(500).send('Can not read the protocol you send to me');
 	}
 };
 
 module.exports = {
-	postProtocol,
+	radarInstructions,
 };
