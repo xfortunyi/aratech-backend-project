@@ -72,7 +72,7 @@ Para ello, utilizaremos Postman. Postman es una plataforma de API para que los d
 <img src='./server/assets/postman/response.png'>
 </div>
 
-## Testeo
+## Testing
 
 A continuación mostramos dos formas de corraborar que l'aplicación funciona a través de distintos métodos de test.
 

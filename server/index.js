@@ -8,8 +8,10 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(PORT, () => {
-	console.log(` 🚀 Server up and running on http://localhost:${PORT} 🚀`);
-});
+if (!module.parent) {
+	app.listen(PORT, () => {
+		console.log(` 🚀 Server up and running on http://localhost:${PORT} 🚀`);
+	});
+}
 
 module.exports = app;
