@@ -1,37 +1,21 @@
 const request = require('supertest');
 const assert = require('assert');
+const should = require('chai').should();
 const app = require('../index');
-const Drone = require('../lib/processProtocols');
 const {
 	prioritizeAllies,
 	compareMech,
 	convertProtocolToFunction,
 } = require('../lib/helper_functions/functions');
+const { scan1, scan8 } = require('./mocks.js').scans;
+const { scan1Result } = require('./mocks').scanResults;
 
 describe('POST /radar', () => {
-	it('Retorna las coordenadas x:5, y:70 en formato JSON con un status 200', function (done) {
+	it('Retorna las coordenadas válidas con un status 200', function (done) {
 		request(app)
 			.post('/radar')
-			.set('Accept', 'application/json')
-			.expect('Content-Type', /json/)
-			.send({
-				protocols: ['furthest-enemies'],
-				scan: [
-					{
-						enemies: { number: 10, type: 'soldier' },
-						coordinates: { y: 35, x: 5 },
-					},
-					{
-						enemies: { number: 10, type: 'soldier' },
-						coordinates: { y: 70, x: 5 },
-					},
-					{
-						enemies: { number: 20, type: 'soldier' },
-						coordinates: { y: 30, x: 10 },
-					},
-				],
-			})
-			.expect({ y: 70, x: 5 })
+			.send(scan1)
+			.expect(scan1Result)
 			.expect(200)
 			.end(function (err, res) {
 				if (err) return done(err);
@@ -42,21 +26,46 @@ describe('POST /radar', () => {
 
 describe('Test helper_functions', () => {
 	it('función compareMech', () => {
-		assert.equal(
-			compareMech(
-				(a = { enemies: { type: 'soldier' } }),
-				(b = { enemies: { type: 'mech' } })
-			),
-			1
-		);
+		scan8.scan.sort(compareMech).should.eql([
+			{ coordinates: { x: 0, y: 1 }, enemies: { type: 'mech', number: 1 } },
+			{ coordinates: { x: 0, y: 99 }, enemies: { type: 'mech', number: 1 } },
+			{
+				coordinates: { x: 0, y: 10 },
+				enemies: { type: 'soldier', number: 10 },
+			},
+		]);
 	});
 	it('función prioritizeAllies', () => {
-		assert.equal(prioritizeAllies((a = { allies: 2 }), (b = { allies: 7 })), 5);
+		scan1.scan.sort(prioritizeAllies).should.eql([
+			{
+				coordinates: { x: 0, y: 80 },
+				allies: 5,
+				enemies: { type: 'mech', number: 1 },
+			},
+			{
+				coordinates: { x: 0, y: 40 },
+				enemies: { type: 'soldier', number: 10 },
+			},
+		]);
 	});
 	it('función convertProtocolToFunction', () => {
 		assert.equal(
 			convertProtocolToFunction('closest-enemies'),
 			'closestEnemies'
+		);
+		assert.equal(
+			convertProtocolToFunction('furthest-enemies'),
+			'furthestEnemies'
+		);
+		assert.equal(convertProtocolToFunction('assist-allies'), 'assistAllies');
+		assert.equal(
+			convertProtocolToFunction('avoid-crossfire'),
+			'avoidCrossfire'
+		);
+		assert.equal(convertProtocolToFunction('avoid-mech'), 'avoidMech');
+		assert.equal(
+			convertProtocolToFunction('prioritize-mech'),
+			'prioritizeMech'
 		);
 	});
 });
